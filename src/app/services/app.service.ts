@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-/** Authentication */
+/** Frontend Functions */
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AppService {
+
   constructor() { }
 }

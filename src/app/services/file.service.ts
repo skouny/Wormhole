@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-/** Authentication */
+/** Firebase Storage */
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class FileService {
+
   constructor() { }
 }

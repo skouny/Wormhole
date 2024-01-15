@@ -1,10 +1,18 @@
 # Project Setup
 
+## Material
+
+`ng add @angular/material`
+
+`npm i @angular/material-moment-adapter`
+
+`npm i moment-timezone`
+
 ## Firebase
 
-`npm install firebase`
+`npm i firebase`
 
-`npm install -g firebase-tools`
+`npm i -g firebase-tools`
 
 `firebase login`
 
@@ -16,4 +24,8 @@
 
 ## Firebase UI
 
-`npm install firebaseui`
+`npm i firebaseui`
+
+## Tailwind
+
+`npm i tailwindcss`

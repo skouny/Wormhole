@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-/** Authentication */
+/** Firebase Functions */
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class FuncService {
+
   constructor() { }
 }
