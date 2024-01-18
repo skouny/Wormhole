@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "skounio",
     "public": "public",
     "ignore": [
       "firebase.json",
