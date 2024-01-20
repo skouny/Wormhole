@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject, map } from 'rxjs';
-import { GoogleAuthProvider, FacebookAuthProvider, TwitterAuthProvider, GithubAuthProvider, EmailAuthProvider, PhoneAuthProvider } from "firebase/auth";
+import { EmailAuthProvider, GoogleAuthProvider, FacebookAuthProvider, TwitterAuthProvider, GithubAuthProvider, PhoneAuthProvider } from "firebase/auth";
 import { MaterialModule } from '../modules/material.module';
 import { AuthService } from '../services/auth.service';
 /** */
@@ -18,17 +18,16 @@ import { AuthService } from '../services/auth.service';
   ],
 })
 export class AuthComponent {
-/** */
-constructor(
-  public authService: AuthService
-) { }
+  /** */
+  constructor(
+    public authService: AuthService,
+  ) { }
   /** */
   divUI$ = new BehaviorSubject<ElementRef<HTMLDivElement> | undefined>(undefined)
   get divUI() { return this.divUI$.value }
   @ViewChild("uiContainer") set divUI(value) { this.divUI$.next(value) }
   /** */
   loadUI$ = this.divUI$.pipe(map(elementRef => {
-    console.log(elementRef)
     if (!elementRef?.nativeElement) return
     this.authService.ui.start(elementRef.nativeElement, {
       /** */
@@ -50,11 +49,11 @@ constructor(
       signInSuccessUrl: '<url-to-redirect-to-on-success>',
       /** Leave the lines as is for the providers you want to offer your users. */
       signInOptions: [
+        EmailAuthProvider.PROVIDER_ID,
         GoogleAuthProvider.PROVIDER_ID,
         FacebookAuthProvider.PROVIDER_ID,
         TwitterAuthProvider.PROVIDER_ID,
         GithubAuthProvider.PROVIDER_ID,
-        EmailAuthProvider.PROVIDER_ID,
         PhoneAuthProvider.PROVIDER_ID
       ],
       /** Terms of service url. */

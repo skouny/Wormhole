@@ -1,16 +1,15 @@
-<div #uiContainer></div>
-<ng-container *ngIf="loadUI$ | async" />
-<!-- <div class="flex items-center justify-center h-[100%]">
-  <mat-card appearance="outlined">
-      <mat-card-header>
-          <mat-icon mat-card-avatar>key</mat-icon>
-          <mat-card-title>Authentication</mat-card-title>
-          <mat-card-subtitle>Please sign in to proceed</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-          <div class="flex flex-col p-4">
-              <div id="firebaseui-auth-container"></div>
-          </div>
-      </mat-card-content>
+<div class="flex items-center justify-center h-[100%]">
+  <mat-card appearance="outlined" class="w-[400px]">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>key</mat-icon>
+      <mat-card-title>Authentication</mat-card-title>
+      <mat-card-subtitle>Please sign in to proceed</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="flex flex-col p-4">
+        <div #uiContainer></div>
+        <ng-container *ngIf="loadUI$ | async" />
+      </div>
+    </mat-card-content>
   </mat-card>
-</div> -->
+</div>

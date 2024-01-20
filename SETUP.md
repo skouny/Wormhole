@@ -1,5 +1,9 @@
 # Project Setup
 
+## Create
+
+`ng new Wornmhole`
+
 ## Material
 
 `ng add @angular/material`
@@ -26,6 +30,8 @@
 
 `npm i firebaseui`
 
-## Tailwind
+## Tailwind <https://tailwindcss.com/docs/guides/angular>
 
-`npm i tailwindcss`
+`npm install -D tailwindcss postcss autoprefixer`
+
+`npx tailwindcss init`
