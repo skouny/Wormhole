@@ -1,0 +1,11 @@
+<h2 class="text-xl mb-4">{{ data.message }}</h2>
+<div class="flex flex-row justify-evenly">
+    <button mat-stroked-button (click)="onOK()" [disabled]="loading" color="warn">
+        <mat-icon>check</mat-icon>
+        <mat-label>OK</mat-label>
+    </button>
+    <button mat-stroked-button (click)="onCancel()" [disabled]="loading">
+        <mat-icon>close</mat-icon>
+        <mat-label>Cancel</mat-label>
+    </button>
+</div>

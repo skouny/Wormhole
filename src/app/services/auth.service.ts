@@ -3,7 +3,7 @@ import { getAuth, IdTokenResult, User } from "firebase/auth";
 import * as firebaseui from 'firebaseui';
 import { BehaviorSubject, map } from 'rxjs';
 import { FireService } from './fire.service';
-/** Authentication */
+/** Firebase Authentication */
 @Injectable({
   providedIn: 'root'
 })

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { initializeApp, FirebaseOptions } from "firebase/app";
-/** */
-const firebaseConfig: FirebaseOptions = {
+/** Firebase Initialize */
+export const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyAjEX2Q14aNBRiLPudb72OiiMXfEZC5oHg",
   authDomain: "skouny-da713.firebaseapp.com",
   projectId: "skouny",

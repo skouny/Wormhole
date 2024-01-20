@@ -1,0 +1,16 @@
+<div class="flex flex-col justify-items-stretch">
+  <a #anchorFile [href]="fileURL" target="_blank" hidden>Download</a>
+  <input #inputFile type="file" (change)="onFileSelected($event)" [accept]="extentions" hidden />
+  <mat-form-field appearance="outline">
+    <mat-label>{{fileName}}</mat-label>
+    <input matInput [value]="labelInput()" placeholder="{{fileName}}" readonly />
+    <button *ngIf="metadata?.size" mat-icon-button matPrefix (click)="anchorFile.click()" matTooltip="Download">
+      <mat-icon matSuffix>download</mat-icon>
+    </button>
+    <button mat-icon-button matSuffix (click)="inputFile.click()" matTooltip="Upload">
+      <mat-icon matSuffix>upload</mat-icon>
+    </button>
+    <mat-hint>{{labelHint()}}</mat-hint>
+  </mat-form-field>
+  <mat-progress-bar *ngIf="progress > 0 && progress < 100" mode="determinate" [value]="progress" />
+</div>

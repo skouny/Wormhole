@@ -1,0 +1,13 @@
+// Angular customizations
+// ::ng-deep {
+//     // Important! Use the dialog tag inside ng-deep, otherwise it's global!
+//     storaged-file {
+//         //
+//         mat-form-field {
+//             // Hide <mat-hint>
+//             .mat-mdc-form-field-subscript-wrapper {
+//                 display: none !important;
+//             }
+//         }
+//     }
+// }

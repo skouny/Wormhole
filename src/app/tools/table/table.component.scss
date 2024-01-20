@@ -1,64 +1,64 @@
 /* Angular customizations */
 ::ng-deep {
-    /* Important! Use the dialog tag inside ng-deep, otherwise it's global! */
-    app-table {
-        /* */
-        mat-form-field {
-            /* Hide <mat-hint> */
-            .mat-mdc-form-field-subscript-wrapper {
-                display: none !important;
-            }
-        }
-        /* */
-        mat-form-field {
-            width: 100%;
-        }
+  /* Important! Use the dialog tag inside ng-deep, otherwise it's global! */
+  app-table {
+    /* */
+    mat-form-field {
+      /* Hide <mat-hint> */
+      .mat-mdc-form-field-subscript-wrapper {
+        display: none !important;
+      }
     }
+    /* */
+    mat-form-field {
+      width: 100%;
+    }
+  }
 }
 /* */
 table {
-    width: 100%;
+  width: 100%;
 }
 /**/
 .table-container {
-    overflow-x: auto;
-    border-radius: 9px;
+  overflow-x: auto;
+  border-radius: 9px;
 }
 
 tr.row:hover {
-    background: #bbdefb;
-    cursor: pointer;
+  background: #bbdefb;
+  cursor: pointer;
 }
 
 th {
-    font-size: medium;
+  font-size: medium;
 }
 
 td,
 th {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 td.error {
-    color: red !important;
+  color: red !important;
 }
 
 td.disabled {
-    color: lightgray !important;
+  color: lightgray !important;
 }
 
 td.bold {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 table.grid {
-    border-collapse: collapse;
+  border-collapse: collapse;
 }
 
 table.grid th,
 table.grid td {
-    padding-left: 4px;
-    padding-right: 4px;
-    text-align: center;
-    border: 1px solid lightgray;
+  padding-left: 4px;
+  padding-right: 4px;
+  text-align: center;
+  border: 1px solid lightgray;
 }

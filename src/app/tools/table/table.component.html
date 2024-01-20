@@ -1,101 +1,99 @@
 <!-- Toolbar -->
 <div class="flex flex-row items-center gap-1 mb-1">
-    <!-- Create -->
-    <button mat-icon-button *ngIf="create" (click)="onAdd()" [disabled]="loading" matTooltip="Create">
-        <mat-icon>add_circle_outline</mat-icon>
-    </button>
-    <!-- Refresh -->
-    <button mat-icon-button *ngIf="refresh" (click)="onRefresh()" [disabled]="loading" matTooltip="Refresh">
-        <mat-icon>refresh</mat-icon>
-    </button>
-    <!-- Print -->
-    <button mat-icon-button *ngIf="print" (click)="onPrint()" [disabled]="loading" matTooltip="Print">
-        <mat-icon>print</mat-icon>
-    </button>
-    <!-- Filter -->
-    <mat-form-field *ngIf="filter" appearance="outline">
-        <mat-label>Search</mat-label>
-        <input matInput [(ngModel)]="dataSource.filter" autocomplete="off" />
-        <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-    <!-- Export -->
-    <button mat-icon-button *ngIf="export" (click)="onExport()" [disabled]="loading" matTooltip="Export">
-        <mat-icon>download</mat-icon>
-    </button>
+  <!-- Create -->
+  <button mat-icon-button *ngIf="create" (click)="onAdd()" [disabled]="loading" matTooltip="Create">
+    <mat-icon>add_circle_outline</mat-icon>
+  </button>
+  <!-- Refresh -->
+  <button mat-icon-button *ngIf="refresh" (click)="onRefresh()" [disabled]="loading" matTooltip="Refresh">
+    <mat-icon>refresh</mat-icon>
+  </button>
+  <!-- Print -->
+  <button mat-icon-button *ngIf="print" (click)="onPrint()" [disabled]="loading" matTooltip="Print">
+    <mat-icon>print</mat-icon>
+  </button>
+  <!-- Filter -->
+  <mat-form-field *ngIf="filter" appearance="outline">
+    <mat-label>Search</mat-label>
+    <input matInput [(ngModel)]="dataSource.filter" autocomplete="off" />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+  <!-- Export -->
+  <button mat-icon-button *ngIf="export" (click)="onExport()" [disabled]="loading" matTooltip="Export">
+    <mat-icon>download</mat-icon>
+  </button>
 </div>
 <ng-container *ngIf="data?.length; else showEmpty">
+  <!-- Table -->
+  <div #divTable class="table-container mat-elevation-z2">
+    <!-- Progress -->
+    <mat-progress-bar *ngIf="loading" mode="indeterminate" />
     <!-- Table -->
-    <div #divTable class="table-container mat-elevation-z2">
-        <!-- Progress -->
-        <mat-progress-bar *ngIf="loading" mode="indeterminate" />
-        <!-- Table -->
-        <ng-container *ngIf="!compact; else showCompact">
-            <table mat-table [dataSource]="dataSource" matSort>
-                <!-- Columns -->
-                <ng-container *ngFor="let column of columns">
-                    <!-- Cells -->
-                    <ng-container matColumnDef="{{ column }}">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ headers[column] || column }}</th>
-                        <td mat-cell *matCellDef="let record" (click)="onCell(record,column)"
-                            [class.disabled]="record['{disabled}']" [class.error]="record['{error}']"
-                            [class.bold]="record['{bold}']">
-                            <ng-container *ngIf="isFunction(record[column]); else text">
-                                <span [innerHTML]="record[column]()"></span>
-                            </ng-container>
-                            <ng-template #text>
-                                <span [innerHTML]="record[column]"></span>
-                            </ng-template>
-                        </td>
-                    </ng-container>
-                </ng-container>
-                <!-- Row Templates -->
-                <tr mat-header-row *matHeaderRowDef="columns"></tr>
-                <tr mat-row *matRowDef="let row; columns: columns;" [class.row]="pointer"></tr>
-            </table>
+    <ng-container *ngIf="!compact; else showCompact">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Columns -->
+        <ng-container *ngFor="let column of columns">
+          <!-- Cells -->
+          <ng-container matColumnDef="{{ column }}">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ headers[column] || column }}</th>
+            <td mat-cell *matCellDef="let record" (click)="onCell(record,column)"
+              [class.disabled]="record['{disabled}']" [class.error]="record['{error}']" [class.bold]="record['{bold}']">
+              <ng-container *ngIf="isFunction(record[column]); else text">
+                <span [innerHTML]="record[column]()"></span>
+              </ng-container>
+              <ng-template #text>
+                <span [innerHTML]="record[column]"></span>
+              </ng-template>
+            </td>
+          </ng-container>
         </ng-container>
-        <ng-template #showCompact>
-            <table cdk-table [dataSource]="dataSource" matSort class="grid">
-                <!-- Columns -->
-                <ng-container *ngFor="let column of columns">
-                    <!-- Cells -->
-                    <ng-container cdkColumnDef="{{ column }}">
-                        <th cdk-header-cell *cdkHeaderCellDef mat-sort-header>{{ headers[column] || column }}</th>
-                        <td cdk-cell *cdkCellDef="let record" (click)="onCell(record,column)"
-                            [class.disabled]="record['{disabled}']" [class.error]="record['{error}']"
-                            [class.bold]="record['{bold}']">
-                            <ng-container *ngIf="isFunction(record[column]); else text">
-                                <span [innerHTML]="record[column]()"></span>
-                            </ng-container>
-                            <ng-template #text>
-                                <span [innerHTML]="record[column]"></span>
-                            </ng-template>
-                        </td>
-                    </ng-container>
-                </ng-container>
-                <!-- HeaderRow & Row -->
-                <tr cdk-header-row *cdkHeaderRowDef="columns"></tr>
-                <tr cdk-row *cdkRowDef="let row; columns: columns" [class.row]="pointer"></tr>
-            </table>
-        </ng-template>
-        <!-- Paginator -->
-        <div #divPaginator class="sticky left-0">
-            <mat-paginator #paginator [pageSize]="pageSize" [pageSizeOptions]="[10, 15, 20, 30, 50, 100]"
-                showFirstLastButtons>
-            </mat-paginator>
-        </div>
-    </div>
-    <!-- Bottom Chips -->
-    <ng-container *ngIf="bottomChips?.length">
-        <div *ngFor="let bottom of bottomChips" class="flex flex-row flex-wrap font-medium items-center py-2">
-            <mat-label class="mr-2">{{bottom.header}}</mat-label>
-            <mat-chip-set>
-                <mat-chip *ngFor="let chip of bottom.chips">{{chip}}</mat-chip>
-            </mat-chip-set>
-        </div>
+        <!-- Row Templates -->
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns;" [class.row]="pointer"></tr>
+      </table>
     </ng-container>
-    <!-- Load -->
-    <ng-container *ngIf="stream$ | async"></ng-container>
+    <ng-template #showCompact>
+      <table cdk-table [dataSource]="dataSource" matSort class="grid">
+        <!-- Columns -->
+        <ng-container *ngFor="let column of columns">
+          <!-- Cells -->
+          <ng-container cdkColumnDef="{{ column }}">
+            <th cdk-header-cell *cdkHeaderCellDef mat-sort-header>{{ headers[column] || column }}</th>
+            <td cdk-cell *cdkCellDef="let record" (click)="onCell(record,column)"
+              [class.disabled]="record['{disabled}']" [class.error]="record['{error}']" [class.bold]="record['{bold}']">
+              <ng-container *ngIf="isFunction(record[column]); else text">
+                <span [innerHTML]="record[column]()"></span>
+              </ng-container>
+              <ng-template #text>
+                <span [innerHTML]="record[column]"></span>
+              </ng-template>
+            </td>
+          </ng-container>
+        </ng-container>
+        <!-- HeaderRow & Row -->
+        <tr cdk-header-row *cdkHeaderRowDef="columns"></tr>
+        <tr cdk-row *cdkRowDef="let row; columns: columns" [class.row]="pointer"></tr>
+      </table>
+    </ng-template>
+    <!-- Paginator -->
+    <div #divPaginator class="sticky left-0">
+      <mat-paginator #paginator [pageSize]="pageSize" [pageSizeOptions]="[10, 15, 20, 30, 50, 100]"
+        showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+  <!-- Bottom Chips -->
+  <ng-container *ngIf="bottomChips?.length">
+    <div *ngFor="let bottom of bottomChips" class="flex flex-row flex-wrap font-medium items-center py-2">
+      <mat-label class="mr-2">{{bottom.header}}</mat-label>
+      <mat-chip-set>
+        <mat-chip *ngFor="let chip of bottom.chips">{{chip}}</mat-chip>
+      </mat-chip-set>
+    </div>
+  </ng-container>
+  <!-- Load -->
+  <ng-container *ngIf="stream$ | async"></ng-container>
 </ng-container>
 <ng-template #showEmpty>
-    <h2 class="text-xl font-medium p-2">There is no records</h2>
+  <h2 class="text-xl font-medium p-2">There is no records</h2>
 </ng-template>
