@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { getAuth, IdTokenResult, User } from "firebase/auth";
-import * as firebaseui from 'firebaseui';
+import firebaseui from 'firebaseui';
 import { BehaviorSubject, map } from 'rxjs';
 import { FireService } from './fire.service';
 /** Firebase Authentication */
