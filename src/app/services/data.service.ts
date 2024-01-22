@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { formatCurrency, formatDate, formatNumber } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import firestore from 'firebase/firestore';
+import * as firestore from 'firebase/firestore';
 import moment from 'moment-timezone';
 import { Observable, map, sampleTime } from 'rxjs';
 import { FireService } from './fire.service';

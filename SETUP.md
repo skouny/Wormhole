@@ -35,3 +35,15 @@
 `npm install -D tailwindcss postcss autoprefixer`
 
 `npx tailwindcss init`
+
+## Options
+
+`tsconfig.json => "compilerOptions" => "baseUrl": "./"`
+
+`tsconfig.json => "compilerOptions" => "resolveJsonModule": true`
+
+## How to upgade all packages to latest version
+
+- `npx npm-upgrade`
+
+- `npm i`

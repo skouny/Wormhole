@@ -1,1 +1,21 @@
-<p>index works!</p>
+<div class="flex flex-col h-screen">
+  <!-- Header -->
+  <header>
+    <mat-toolbar>
+
+    </mat-toolbar>
+  </header>
+  <!-- Content -->
+  <div class="flex flex-col flex-auto justify-between items-stretch overflow-y-auto">
+    <!-- Main -->
+    <main class="flex-auto">
+      <router-outlet />
+    </main>
+    <!-- Footer -->
+    <footer class="flex flex-col sm:flex-row justify-between items-stretch gap-1">
+      <div>
+        Powered by <a href="mailto:skouny@gmail.com" target="_blank">skouny</a> (v{{ appVersion }})
+      </div>
+    </footer>
+  </div>
+</div>

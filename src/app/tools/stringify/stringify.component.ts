@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet'
-import firestore from 'firebase/firestore'
-import moment from 'moment-timezone'
-import { timezone } from '../../services/app.service'
-import { MaterialModule } from '../../modules/material.module'
+import * as firestore from 'firebase/firestore'
+import * as moment from 'moment-timezone'
+import { timezone } from 'src/app/services/app.service'
+import { MaterialModule } from 'src/app/modules/material.module'
 /** */
 @Component({
   standalone: true,

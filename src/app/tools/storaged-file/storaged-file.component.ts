@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
-import storage from 'firebase/storage'
+import * as storage from 'firebase/storage'
 import { AppService } from '../../services/app.service'
 import { DataService } from '../../services/data.service'
 import { MaterialModule } from '../../modules/material.module'

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import storage from 'firebase/storage';
+import * as storage from 'firebase/storage';
 import { FireService } from './fire.service';
 /** Firebase Storage */
 @Injectable({
