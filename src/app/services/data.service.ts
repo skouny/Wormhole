@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { formatCurrency, formatDate, formatNumber } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import firestore from 'firebase/firestore';
 import moment from 'moment-timezone';
 import { Observable, map, sampleTime } from 'rxjs';
 import { FireService } from './fire.service';
 import { AppService, currency, locale } from './app.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 //#region Default config
 /** Default emit time interval for observables */
 const emitTime = 200

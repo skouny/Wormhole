@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { getAuth, IdTokenResult, User } from "firebase/auth";
+import auth from "firebase/auth";
 import firebaseui from 'firebaseui';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { FireService } from './fire.service';
 /** Firebase Authentication */
 @Injectable({
@@ -9,13 +9,13 @@ import { FireService } from './fire.service';
 })
 export class AuthService {
   /** */
-  auth = getAuth(this.fireService.app);
+  auth = auth.getAuth(this.fireService.app);
   /** */
   ui = new firebaseui.auth.AuthUI(this.auth);
   /** User: Signed in, null: Not signed in, undefined: loading */
-  user$ = new BehaviorSubject<User | null | undefined>(undefined)
+  user$ = new BehaviorSubject<auth.User | null | undefined>(undefined)
   /** */
-  token$ = new BehaviorSubject<IdTokenResult | null | undefined>(undefined)
+  token$ = new BehaviorSubject<auth.IdTokenResult | null | undefined>(undefined)
   /** */
   constructor(
     public fireService: FireService

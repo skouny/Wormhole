@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from "firebase/auth";
-import { getFunctions, httpsCallable } from "firebase/functions";
+import auth from "firebase/auth";
+import functions from "firebase/functions";
 import { AppService } from './app.service';
 import { FireService } from './fire.service';
 //#region Types
@@ -23,7 +23,7 @@ export interface RightsProviderAuth {
   Agent?: boolean
 }
 /** */
-export type fireUserRemote = User & { customClaims: RightsGlobal | undefined, disabled?: boolean, metadata?: { lastRefreshTime?: string } }
+export type fireUserRemote = auth.User & { customClaims: RightsGlobal | undefined, disabled?: boolean, metadata?: { lastRefreshTime?: string } }
 //#endregion
 /** Firebase Functions */
 @Injectable({
@@ -31,7 +31,7 @@ export type fireUserRemote = User & { customClaims: RightsGlobal | undefined, di
 })
 export class FuncService {
   /** */
-  functions = getFunctions(this.fireService.app)
+  functions = functions.getFunctions(this.fireService.app)
   /** */
   constructor(
     public appService: AppService,
@@ -40,7 +40,7 @@ export class FuncService {
   /** General cloud function caller */
   cloudFunction<T>(name: string, data: any = {}): Promise<T | undefined> {
     return new Promise<T | undefined>(resolve => {
-      httpsCallable(this.functions, name)(data).then(result => {
+      functions.httpsCallable(this.functions, name)(data).then(result => {
         resolve(result.data as T)
       }).catch(reason => {
         this.appService.showMessage(`Cloud Function ${name} Error: ${reason?.message}`)

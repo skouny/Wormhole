@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { initializeApp, FirebaseOptions } from "firebase/app";
+import firebase from "firebase/app";
 /** Firebase Initialize */
-export const firebaseConfig: FirebaseOptions = {
+export const firebaseConfig: firebase.FirebaseOptions = {
   apiKey: "AIzaSyAjEX2Q14aNBRiLPudb72OiiMXfEZC5oHg",
   authDomain: "skouny-da713.firebaseapp.com",
   projectId: "skouny",
@@ -15,7 +15,7 @@ export const firebaseConfig: FirebaseOptions = {
 })
 export class FireService {
   /** */
-  app = initializeApp(firebaseConfig);
+  app = firebase.initializeApp(firebaseConfig);
   /** */
   constructor() { }
 }

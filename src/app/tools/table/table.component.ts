@@ -1,11 +1,11 @@
 import { Component, ViewChild, Input, Output, EventEmitter, ElementRef } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { FormsModule } from '@angular/forms'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { MatTableDataSource } from '@angular/material/table'
 import { MatPaginator } from '@angular/material/paginator'
 import { MatSort } from '@angular/material/sort'
 import { BehaviorSubject, combineLatest, of, switchMap, map, sampleTime } from 'rxjs'
-import { CommonModule } from '@angular/common'
-import { FormsModule } from '@angular/forms'
 import { MaterialModule } from '../../modules/material.module'
 /** Get the text between 2 strings */
 const stringBetween = (text: string, begin: string, end: string) => {

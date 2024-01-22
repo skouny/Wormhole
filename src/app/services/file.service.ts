@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getStorage, ref, getMetadata, getDownloadURL, getBlob, getBytes } from 'firebase/storage';
+import storage from 'firebase/storage';
 import { FireService } from './fire.service';
 /** Firebase Storage */
 @Injectable({
@@ -7,26 +7,26 @@ import { FireService } from './fire.service';
 })
 export class FileService {
   /** */
-  storage = getStorage(this.fireService.app)
+  storage = storage.getStorage(this.fireService.app)
   /** */
   constructor(
     public fireService: FireService
   ) { }
   /** */
   ref(pathname: string) {
-    return ref(this.storage, pathname)
+    return storage.ref(this.storage, pathname)
   }
   /** */
   async getStorageURL(pathname: string) {
     const storageRef = this.ref(pathname)
-    return getDownloadURL(storageRef)
+    return storage.getDownloadURL(storageRef)
   }
   /** */
   async getStorageInfo(pathname: string) {
     const storageRef = this.ref(pathname)
     const [url, metadata] = await Promise.all([
-      getDownloadURL(storageRef),
-      getMetadata(storageRef)
+      storage.getDownloadURL(storageRef),
+      storage.getMetadata(storageRef)
     ])
     return { url, metadata }
   }
@@ -34,8 +34,8 @@ export class FileService {
   async getStorageBytes(pathname: string) {
     const storageRef = this.ref(pathname)
     const [data, metadata] = await Promise.all([
-      getBytes(storageRef),
-      getMetadata(storageRef)
+      storage.getBytes(storageRef),
+      storage.getMetadata(storageRef)
     ])
     return { data, metadata }
   }
@@ -43,8 +43,8 @@ export class FileService {
   async getStorageBlob(pathname: string) {
     const storageRef = this.ref(pathname)
     const [data, metadata] = await Promise.all([
-      getBlob(storageRef),
-      getMetadata(storageRef)
+      storage.getBlob(storageRef),
+      storage.getMetadata(storageRef)
     ])
     return { data, metadata }
   }
