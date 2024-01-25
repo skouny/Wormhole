@@ -1,12 +1,53 @@
 @use "@angular/material" as mat;
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+@import "tailwindcss/components";
 @import "firebaseui/dist/firebaseui.css";
-/* You can add global styles to this file, and also import other style files */
 
-/* html, body { height: 100%; } */
+//#region Material Theme Init
+
+@include mat.core();
+
+$light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: mat.define-palette(mat.$indigo-palette),
+      accent: mat.define-palette(mat.$pink-palette),
+      warn: mat.define-palette(mat.$red-palette)
+    ),
+    typography:
+      mat.define-typography-config(
+        $font-family: Roboto
+      ),
+    density: -2
+  )
+);
+
+@include mat.all-component-themes($light-theme);
+
+//#endregion
+
+//#region Main CSS
+
+html,
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  padding: 0;
+  border: none;
 }
+
+//#endregion
+
+//#region Tailwind/Material Issues
+
+// <mat-form-field appearance="outline" /> fix
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field
+  .mdc-notched-outline__notch {
+  border-right-style: hidden;
+}
+// <button mat-icon-button /> fix
+.mdc-icon-button {
+  font-size: unset !important;
+}
+
+//#endregion

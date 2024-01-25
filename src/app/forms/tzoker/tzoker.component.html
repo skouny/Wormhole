@@ -1,0 +1,5 @@
+<button mat-button (click)="updateAll()" [disabled]="loading">Update All</button>
+<button mat-button (click)="updateQuick()" [disabled]="loading">Update Quick</button>
+
+<app-table [columns]="columns" [data]="dataSource" [filter]="true" [pointer]="true" [loading]="loading"
+  (cellClick)="onTableCell($event)" />

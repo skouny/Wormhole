@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { formatCurrency, formatDate, formatNumber } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as firestore from 'firebase/firestore';
-import moment from 'moment-timezone';
-import { Observable, map, sampleTime } from 'rxjs';
+import * as moment from 'moment-timezone';
+import { BehaviorSubject, Observable, Subject, map, mergeMap, sampleTime, takeUntil } from 'rxjs';
 import { FireService } from './fire.service';
 import { AppService, currency, locale } from './app.service';
+import { OpapDrawV3 } from 'shared/data-types';
 //#region Default config
 /** Default emit time interval for observables */
 const emitTime = 200
@@ -13,6 +14,20 @@ const emitTime = 200
 let hideErrors = false
 //#endregion
 //#region Common Functions
+/** Get the keys of an enum so to be possible to get its values. e.g. enumKeys(Color).map(x => Color[x]) */
+export const enumKeys = <T extends Record<string, unknown>, K extends keyof T = keyof T>(obj: T): K[] => {
+  return Object.keys(obj).filter(x => Number.isNaN(+x)) as K[]
+}
+/** Convert any Observable to BehaviorSubject, so you can access the last emitted value at any time. Destroyed when destroy$ emits. */
+export const behaviorStream = <T>(stream$: Observable<T>, destroy$?: Subject<void>, value?: T) => {
+  const data$ = new BehaviorSubject(value)
+  if (destroy$) {
+    stream$.pipe(takeUntil(destroy$)).subscribe(data$)
+  } else {
+    stream$.subscribe(data$)
+  }
+  return data$
+}
 /** Split an array to parts */
 export const arraySplit = <T>(array: T[], size: number): T[][] => {
   const items = [...array] // Copy
@@ -75,7 +90,7 @@ export const fireDocUID$ = <T>(doc: firestore.DocumentReference, snackBar: MatSn
   }).pipe(sampleTime(duration))
 }
 /** */
-export const fireDocs$ = <T>(query: firestore.CollectionReference | firestore.Query, snackBar: MatSnackBar, duration = emitTime) => {
+export const fireDocs$ = <T>(query: firestore.Query, snackBar: MatSnackBar, duration = emitTime) => {
   return new Observable<(T & { UID: string })[]>(subscriber => {
     firestore.onSnapshot(query, (observer: { docs: any[] }) => {
       const data = observer.docs?.map(doc => {
@@ -135,7 +150,31 @@ export abstract class GeneralCollection<T> {
   read$(UID: string): Observable<T> {
     return fireDoc$<T>(this.doc(UID), this.dataService.snackBar)
   }
+  /** Read all documents of the collection */
+  readAll$(
+    /** */
+    orderByField?: string,
+    /** */
+    orderByDirection?: firestore.OrderByDirection,
+    /** */
+    duration = emitTime
+  ): Observable<(T & { UID: string })[]> {
+    const query = firestore.query(this.collection)
+    if (orderByField && orderByDirection) {
+      //const query = firestore.orderBy(orderByField, orderByDirection)
+      //return fireDocs$<T>(this.collection, this.dataService.snackBar, duration)
+    }
+    return fireDocs$<T>(query, this.dataService.snackBar, duration)
+  }
   //#endregion
+}
+//#endregion
+//#region Collections
+export class OpapDrawsV3 extends GeneralCollection<OpapDrawV3>{
+  /** */
+  static readonly NAME = `OpapDrawsV3`
+  /** */
+  readonly name = OpapDrawsV3.NAME
 }
 //#endregion
 /** Firestore Database */
@@ -143,6 +182,8 @@ export abstract class GeneralCollection<T> {
   providedIn: 'root'
 })
 export class DataService {
+  /** */
+  opapDraws = new OpapDrawsV3(this)
   /** */
   firestore = firestore.initializeFirestore(this.fireService.app, {
     ignoreUndefinedProperties: true

@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MaterialModule } from 'src/app/modules/material.module';
 import { AppService } from '../services/app.service';
+import { AuthService } from '../services/auth.service';
 /** */
 @Component({
   standalone: true,
@@ -19,9 +20,8 @@ import { AppService } from '../services/app.service';
 })
 export class IndexComponent {
   /** */
-  appVersion = this.appService.appVersion
-  /** */
   constructor(
-    public appService: AppService
+    public appService: AppService,
+    public authService: AuthService
   ) { }
 }

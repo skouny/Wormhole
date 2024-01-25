@@ -1,20 +1,48 @@
 <div class="flex flex-col h-screen">
   <!-- Header -->
   <header>
-    <mat-toolbar>
+    <mat-toolbar color="primary">
+      <!-- Logo -->
+      <div>
+        <button mat-icon-button>
+          <mat-icon>home</mat-icon>
+        </button>
+      </div>
+      <!-- Spacer -->
+      <div class="flex-auto">
 
+      </div>
+      <!-- User -->
+      <div>
+        <ng-container *ngIf="authService.user$ | async; let user; else showLogin">
+          <button mat-icon-button (click)="authService.logout()" [matTooltip]="user.displayName ?? '???'">
+            <mat-icon>logout</mat-icon>
+          </button>
+        </ng-container>
+        <ng-template #showLogin>
+          <button mat-icon-button (click)="authService.login()">
+            <mat-icon>login</mat-icon>
+          </button>
+        </ng-template>
+      </div>
     </mat-toolbar>
   </header>
   <!-- Content -->
   <div class="flex flex-col flex-auto justify-between items-stretch overflow-y-auto">
     <!-- Main -->
-    <main class="flex-auto">
+    <main class="flex-auto bg-gray-100">
+      <button mat-button *ngIf="authService.user$ | async" (click)="appService.routerLink('/dashboard')">
+        Dashboard
+      </button>
       <router-outlet />
     </main>
     <!-- Footer -->
-    <footer class="flex flex-col sm:flex-row justify-between items-stretch gap-1">
+    <footer class="flex flex-col sm:flex-row justify-between items-stretch text-sm gap-1 bg-slate-300">
       <div>
-        Powered by <a href="mailto:skouny@gmail.com" target="_blank">skouny</a> (v{{ appVersion }})
+
+      </div>
+      <div>
+        Powered by <a href="mailto:skouny@gmail.com" target="_blank">skouny</a> (v{{ appService.appVersion }})
       </div>
     </footer>
   </div>

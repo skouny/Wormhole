@@ -1,4 +1,4 @@
-import { Injectable, TemplateRef } from '@angular/core';
+import { Injectable, TemplateRef, isDevMode } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeUrl, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ComponentType } from '@angular/cdk/overlay';
@@ -291,7 +291,7 @@ export const catchMessage = (e: unknown): string => {
 })
 export class AppService {
   /** App version */
-  appVersion = version
+  appVersion = `${version}${(isDevMode()) ? '-dev' : ''}`
   /** */
   constructor(
     public title: Title,
@@ -301,6 +301,19 @@ export class AppService {
     public dialog: MatDialog,
     public router: Router,
   ) { }
+  /** */
+  get devMode() { return isDevMode() }
+  //#region Routing
+  /** */
+  routerLink(path: string) {
+    return this.router.navigate([path])
+  }
+  /** */
+  routerRefresh() {
+    this.router.navigated = false // refresh
+    return this.router.navigate([this.router.url])
+  }
+  //#endregion
   /** */
   dialogOpen<T>(obj?: TemplateRef<T> | ComponentType<T> | null, data?: any, disableClose = false) {
     if (!obj) return

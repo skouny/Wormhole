@@ -2,7 +2,8 @@ import { Routes } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
 import { IndexComponent } from './index/index.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { TzokerComponent } from './dashboard/tzoker/tzoker.component';
+import { FormUsersComponent } from './forms/users/users.component';
+import { FormTzokerComponent } from './forms/tzoker/tzoker.component';
 import { guardDashboard, guardDashboardChild } from './dashboard/dashboard.guard';
 /** */
 export const routes: Routes = [
@@ -18,13 +19,18 @@ export const routes: Routes = [
     canActivateChild: [guardDashboardChild],
     component: DashboardComponent,
     children: [
+      /** Users */
+      {
+        path: 'users',
+        component: FormUsersComponent
+      },
       /** Tzoker */
       {
         path: 'tzoker',
-        component: TzokerComponent
+        component: FormTzokerComponent
       },
       /** Default */
-      { path: '**', redirectTo: 'tzoker' }
+      { path: '**', redirectTo: '' }
     ]
   },
   /** Index */

@@ -1,1 +1,66 @@
-<router-outlet />
+<div class="flex flex-col h-screen">
+  <!-- Header -->
+  <header>
+    <mat-toolbar color="primary">
+      <!-- Logo -->
+      <div>
+        <button mat-icon-button (click)="sidenavLeft.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <a routerLink="./">Dashboard</a>
+      </div>
+      <!-- Spacer -->
+      <div class="flex-auto">
+
+      </div>
+      <!-- User -->
+      <div>
+        <ng-container *ngIf="authService.user$ | async; let user; else showLogin">
+          <button mat-icon-button (click)="authService.logout()" [matTooltip]="user.displayName ?? '???'">
+            <mat-icon>logout</mat-icon>
+          </button>
+        </ng-container>
+        <ng-template #showLogin>
+          <button mat-icon-button (click)="authService.login()">
+            <mat-icon>login</mat-icon>
+          </button>
+        </ng-template>
+      </div>
+    </mat-toolbar>
+  </header>
+  <!-- Content -->
+  <mat-sidenav-container autosize class="flex flex-row flex-auto overflow-y-auto">
+    <!-- Left Sidenav -->
+    <mat-sidenav #sidenavLeft class="w-40" [mode]="mediaQuery.matches ? 'over' : 'side'" [opened]="!mediaQuery.matches">
+      <!-- Users -->
+      <mat-nav-list>
+        <mat-list-item routerLink="./users" routerLinkActive="app-sidenav-item-active">
+          <mat-label>Users</mat-label>
+        </mat-list-item>
+      </mat-nav-list>
+      <!-- Tzoker -->
+      <mat-nav-list>
+        <mat-list-item routerLink="./tzoker" routerLinkActive="app-sidenav-item-active">
+          <mat-label>Tzoker</mat-label>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+    <!-- Content -->
+    <mat-sidenav-content class="grow p-4">
+      <router-outlet />
+    </mat-sidenav-content>
+    <!-- Right Sidenav -->
+    <!-- <mat-sidenav *ngIf="dataService.userInfo?.RightsUser?.Count && counterState.value" position="end" mode="side"
+        opened class="w-48">
+        <form-counter />
+    </mat-sidenav> -->
+  </mat-sidenav-container>
+  <!-- Footer -->
+  <footer class="flex px-2 py-1 max-sm:flex-col max-sm:items-center primary-color mat-primary-bg">
+    <span>
+      Powered by <a href="mailto:skouny@gmail.com" target="_blank">skouny</a> v{{ appService.appVersion }}
+    </span>
+    <span class="flex-auto p-1"></span>
+    <span>All Rights Reserved © 2024</span>
+  </footer>
+</div>

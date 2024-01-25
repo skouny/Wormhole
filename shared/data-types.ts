@@ -1,5 +1,5 @@
 /** https://api.opap.gr/draws/v3.0/{gameId}/{drawId} */
-export interface OpapDraw_v3 {
+export interface OpapDrawV3 {
   /** Tzoker=5104 */
   gameId: number
   /** */
@@ -7,7 +7,7 @@ export interface OpapDraw_v3 {
   /** */
   drawTime: number
   /** */
-  status: string
+  status: "results" | ""
   /** */
   drawBreak: number
   /** */

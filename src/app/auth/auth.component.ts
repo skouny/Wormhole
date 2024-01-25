@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject, map } from 'rxjs';
-import { EmailAuthProvider, GoogleAuthProvider, FacebookAuthProvider, TwitterAuthProvider, GithubAuthProvider, PhoneAuthProvider } from "firebase/auth";
+import * as auth from "firebase/auth";
 import { MaterialModule } from '../modules/material.module';
 import { AuthService } from '../services/auth.service';
 /** */
@@ -49,12 +49,12 @@ export class AuthComponent {
       signInSuccessUrl: '<url-to-redirect-to-on-success>',
       /** Leave the lines as is for the providers you want to offer your users. */
       signInOptions: [
-        EmailAuthProvider.PROVIDER_ID,
-        GoogleAuthProvider.PROVIDER_ID,
-        FacebookAuthProvider.PROVIDER_ID,
-        TwitterAuthProvider.PROVIDER_ID,
-        GithubAuthProvider.PROVIDER_ID,
-        PhoneAuthProvider.PROVIDER_ID
+        auth.EmailAuthProvider.PROVIDER_ID,
+        auth.GoogleAuthProvider.PROVIDER_ID,
+        auth.FacebookAuthProvider.PROVIDER_ID,
+        auth.TwitterAuthProvider.PROVIDER_ID,
+        auth.GithubAuthProvider.PROVIDER_ID,
+        auth.PhoneAuthProvider.PROVIDER_ID
       ],
       /** Terms of service url. */
       tosUrl: '<your-tos-url>',

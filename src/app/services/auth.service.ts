@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import * as firebase from "firebase/auth";
 import * as firebaseui from 'firebaseui';
 import { BehaviorSubject } from 'rxjs';
@@ -15,10 +16,13 @@ export class AuthService {
   /** User: Signed in, null: Not signed in, undefined: loading */
   user$ = new BehaviorSubject<firebase.User | null | undefined>(undefined)
   /** */
+  get user() { return this.user$.value }
+  /** */
   token$ = new BehaviorSubject<firebase.IdTokenResult | null | undefined>(undefined)
   /** */
   constructor(
-    public fireService: FireService
+    public fireService: FireService,
+    public router: Router,
   ) {
     this.auth.onAuthStateChanged(user => {
       if (user) {
@@ -33,8 +37,12 @@ export class AuthService {
       this.user$.next(user)
     })
   }
+  /** */
+  login() {
+    return this.router.navigate(["/auth"])
+  }
   /** Signs out the current user. */
-  signOut() {
+  logout() {
     this.auth.signOut()
   }
 }

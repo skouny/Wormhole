@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import auth from "firebase/auth";
-import functions from "firebase/functions";
+import * as auth from "firebase/auth";
+import * as functions from "firebase/functions";
 import { AppService } from './app.service';
 import { FireService } from './fire.service';
 //#region Types
@@ -49,6 +49,17 @@ export class FuncService {
     })
   }
   /** */
+  cloudFunctionURL<T>(url: string, data: any = {}): Promise<T | undefined> {
+    return new Promise<T | undefined>(resolve => {
+      functions.httpsCallableFromURL(this.functions, url)(data).then(result => {
+        resolve(result.data as T)
+      }).catch(reason => {
+        this.appService.showMessage(`Cloud Function ${url} Error: ${reason?.message}`)
+        resolve(undefined)
+      })
+    })
+  }
+  /** */
   getUsers = async (UIDs?: string[], emails?: string[], pageToken?: string) => (await this.cloudFunction<{
     users?: fireUserRemote[],
     pageToken?: string,
@@ -58,6 +69,12 @@ export class FuncService {
     emails: emails,
     pageToken: pageToken
   }))
+  /** */
+  updateOpapV3 = async (gameId: number, drawId: number) => (await this.cloudFunctionURL<string>("https://updateopapv3-z4n2whrlyq-ey.a.run.app", { gameId: gameId, drawId: drawId }))
+  /** */
+  updateOpapQuickV3 = async (gameId: number) => (await this.cloudFunctionURL<string>("https://updateopapquickv3-z4n2whrlyq-ey.a.run.app", { gameId: gameId }))
+  /** */
+  updateOpapAllV3 = async (gameId: number, drawId = 0) => (await this.cloudFunctionURL<string>("https://updateopapallv3-z4n2whrlyq-ey.a.run.app", { gameId: gameId, drawId: drawId }))
   /** */
   setDisplayName = async (userUID: string, userName: string) => (await this.cloudFunction<{ message?: string, error?: string }>("setDisplayName", {
     userUID: userUID,
