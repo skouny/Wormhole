@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatNumber } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Subject, map } from 'rxjs';
@@ -6,7 +6,8 @@ import { MaterialModule } from 'src/app/modules/material.module';
 import { AppService } from 'src/app/services/app.service';
 import { DataService, behaviorStream } from 'src/app/services/data.service';
 import { FuncService } from 'src/app/services/func.service';
-import { Cell, Row, TableComponent } from 'src/app/tools/table/table.component';
+import { BottomChipset, Cell, Row, TableComponent, downloadCSV } from 'src/app/tools/table/table.component';
+
 /** */
 @Component({
   standalone: true,
@@ -24,22 +25,58 @@ export class FormTzokerComponent implements OnDestroy {
   /** */
   destroy$ = new Subject<void>()
   /** */
-  columns = ["Id", "Time", "Price", "Wagers", "Numbers", "Tzoker", "Winnings1", "Winnings2"]
+  columns = ["Id", "Time", "Price", "Columns", "Numbers", "Tzoker", "Winners", "Jackpot"]
   /** */
   dataSource: Row[] = []
+  /** */
+  bottomChips: BottomChipset[] = []
   /** */
   loading = false
   /** Tzoker gameId  */
   gameId = 5104
   /** */
-  draws$ = behaviorStream(this.dataService.opapDraws.readAll$().pipe(map(draws => {
-    console.log(draws)
+  draws$ = behaviorStream(this.dataService.opapDraws.readAll$("drawId", "desc").pipe(map(draws => {
+    //
+    const listDict: { [number: string]: number } = {}
+    const bonusDict: { [number: string]: number } = {}
+    //
     this.dataSource = draws.map(x => {
+      for (const num of x.winningNumbers.list) {
+        const key = formatNumber(num, "el-GR", "2.0-0")
+        if (!(key in listDict)) listDict[key] = 0
+        listDict[key] += 1
+      }
+      for (const bonus of x.winningNumbers.bonus) {
+        const key = formatNumber(bonus, "el-GR", "2.0-0")
+        if (!(key in bonusDict)) bonusDict[key] = 0
+        bonusDict[key] += 1
+      }
       return {
         "UID": x.UID,
-        "Id": x.drawId
+        "Id": x.drawId,
+        "Time": () => this.dataService.labelTimestamp(x.drawTime),
+        "Price": this.dataService.labelCurrency(x.pricePoints.amount),
+        "Columns": this.dataService.labelNumber(x.wagerStatistics.columns),
+        "Numbers": x.winningNumbers.list.join(", "),
+        "Tzoker": x.winningNumbers.bonus.join(", "),
+        "Winners": x.prizeCategories[0].winners || "",
+        "Jackpot": this.dataService.labelCurrency(x.prizeCategories[0].jackpot),
       } as Row
     })
+    //
+    const countList = Object.keys(listDict).map(x => ({ num: x, count: listDict[x] })).sort((a, b) => a.count > b.count ? 1 : -1)
+    const countBonus = Object.keys(bonusDict).map(x => ({ num: x, count: listDict[x] })).sort((a, b) => a.count > b.count ? 1 : -1)
+    this.bottomChips = [
+      {
+        header: "Numbers: ",
+        chips: countList.map(x => `${x.num}: ${x.count}`)
+      },
+      {
+        header: "Tzoker: ",
+        chips: countBonus.map(x => `${x.num}: ${x.count}`)
+      }
+    ]
+    //
     return draws
   })), this.destroy$)
   /** */
@@ -98,5 +135,18 @@ export class FormTzokerComponent implements OnDestroy {
         // })
         break
     }
+  }
+  /** */
+  onExport() {
+    const fields: string[][] = []
+    fields.push([`Index`, `Number1`, `Number2`, `Number3`, `Number4`, `Number5`, `Number6`])
+    const draws = (this.draws$.value ?? []).sort((a, b) => a.drawId > b.drawId ? 1 : -1)
+    for (const draw of draws) {
+      const line = [draw.drawId]
+      line.push(...draw.winningNumbers.list)
+      line.push(...draw.winningNumbers.bonus)
+      fields.push(line.map(x => formatNumber(x, "el-GR", "2.0-0")))
+    }
+    downloadCSV(fields, ";", "Numbers.csv")
   }
 }

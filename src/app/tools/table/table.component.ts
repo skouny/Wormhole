@@ -13,6 +13,23 @@ const stringBetween = (text: string, begin: string, end: string) => {
   const endIndex = text.indexOf(end)
   return text.substring(startIndex, endIndex).trim()
 }
+/** Download string as a text file. e.g. CSV */
+export const downloadText = (text: string, fileName = "Download.txt", fileType = "text/csv;charset=utf-8;") => {
+  const blob = new Blob([text], { type: fileType })
+  const url = window.URL.createObjectURL(blob)
+  const link = document.createElement("a")
+  link.href = url
+  link.download = fileName
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  window.URL.revokeObjectURL(url)
+}
+/** Download two-dimentional string array as CSV file */
+export const downloadCSV = (fields: string[][], separator = ";", fileName = "Download.csv", fileType = "text/csv;charset=utf-8;") => {
+  const csv = fields.map(x => x.join(separator)).join("\r\n")
+  downloadText(csv, fileName, fileType)
+}
 /** Table headers */
 export interface Headers {
   [column: string]: string
@@ -171,15 +188,7 @@ export class TableComponent {
   }
   /** */
   onExport() {
-    const blob = new Blob([this.csv], { type: "text/csv;charset=utf-8;" })
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = "Download.csv"
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    window.URL.revokeObjectURL(url)
+    downloadText(this.csv, "Download.csv")
   }
   /** */
   isFunction(value: any) {

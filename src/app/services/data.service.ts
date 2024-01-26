@@ -159,12 +159,12 @@ export abstract class GeneralCollection<T> {
     /** */
     duration = emitTime
   ): Observable<(T & { UID: string })[]> {
-    const query = firestore.query(this.collection)
     if (orderByField && orderByDirection) {
-      //const query = firestore.orderBy(orderByField, orderByDirection)
-      //return fireDocs$<T>(this.collection, this.dataService.snackBar, duration)
+      const orderBy = firestore.orderBy(orderByField, orderByDirection)
+      const query = firestore.query(this.collection, orderBy)
+      return fireDocs$<T>(query, this.dataService.snackBar, duration)
     }
-    return fireDocs$<T>(query, this.dataService.snackBar, duration)
+    return fireDocs$<T>(this.collection, this.dataService.snackBar, duration)
   }
   //#endregion
 }
@@ -172,7 +172,7 @@ export abstract class GeneralCollection<T> {
 //#region Collections
 export class OpapDrawsV3 extends GeneralCollection<OpapDrawV3>{
   /** */
-  static readonly NAME = `OpapDrawsV3`
+  static readonly NAME = `OpapDrawV3`
   /** */
   readonly name = OpapDrawsV3.NAME
 }
