@@ -7,7 +7,6 @@ import { AppService } from 'src/app/services/app.service';
 import { DataService, behaviorStream } from 'src/app/services/data.service';
 import { FuncService } from 'src/app/services/func.service';
 import { BottomChipset, Cell, Row, TableComponent, downloadCSV } from 'src/app/tools/table/table.component';
-
 /** */
 @Component({
   standalone: true,

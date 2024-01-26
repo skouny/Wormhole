@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table'
 import { MatPaginator } from '@angular/material/paginator'
 import { MatSort } from '@angular/material/sort'
 import { BehaviorSubject, combineLatest, of, switchMap, map, sampleTime } from 'rxjs'
-import { MaterialModule } from '../../modules/material.module'
+import { MaterialModule } from 'src/app/modules/material.module'
 /** Get the text between 2 strings */
 const stringBetween = (text: string, begin: string, end: string) => {
   const startIndex = text.indexOf(begin) + begin.length
@@ -164,7 +164,7 @@ export class TableComponent {
             div.innerHTML = stringBetween(`${value}`, " [property]=binding: ", " (see ")
             return div.textContent || div.innerText
           })() || ""
-        }).join(";")
+        }).map(x => x.replace(/€/g, '').trim()).join(";")
       )
     }
     // Join lines
