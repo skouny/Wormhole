@@ -7,3 +7,5 @@ export const firebaseConfig = {
   messagingSenderId: "153886109135",
   appId: "1:153886109135:web:74de595763204a3a3cb6ba"
 }
+/** Firebase cloud functions region */
+export const region = "europe-west3"
