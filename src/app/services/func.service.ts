@@ -3,7 +3,7 @@ import * as auth from "firebase/auth";
 import * as functions from "firebase/functions";
 import { AppService } from './app.service';
 import { FireService } from './fire.service';
-import { region } from 'shared/firebase-config';
+import { firebaseConfig } from 'shared/firebase-config';
 //#region Types
 /** Global Rights in custom claims */
 export interface RightsGlobal {
@@ -32,7 +32,7 @@ export type fireUserRemote = auth.User & { customClaims: RightsGlobal | undefine
 })
 export class FuncService {
   /** */
-  functions = functions.getFunctions(this.fireService.app, region)
+  functions = functions.getFunctions(this.fireService.app, firebaseConfig.region)
   /** */
   constructor(
     public appService: AppService,

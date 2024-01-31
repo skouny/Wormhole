@@ -7,7 +7,7 @@ import { firebaseConfig } from '../../../shared/firebase-config';
 })
 export class FireService {
   /** */
-  app = firebase.initializeApp(firebaseConfig);
+  app = firebase.initializeApp(firebaseConfig.options);
   /** */
   constructor() { }
 }

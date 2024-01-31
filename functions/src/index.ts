@@ -9,7 +9,9 @@
  */
 import { onRequest, onCall } from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
-import { region } from "../../shared/firebase-config";
+import { firebaseConfig } from "../../shared/firebase-config";
+
+const region = firebaseConfig.region;
 
 // #region Opap
 /** Update a specific draw */
