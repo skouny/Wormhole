@@ -10,8 +10,10 @@ const configurations = {
       messagingSenderId: "153886109135",
       appId: "1:153886109135:web:74de595763204a3a3cb6ba"
     },
+    /** */
+    appName: "Wormhole",
     /** Cloud Functions Region */
-    region: "europe-west3"
+    region: "europe-west3",
   }
 }
 /** Active Configuration */

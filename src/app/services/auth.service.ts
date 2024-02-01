@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import * as firebase from "firebase/auth";
+import * as auth from "firebase/auth";
 import * as firebaseui from 'firebaseui';
 import { BehaviorSubject } from 'rxjs';
 import { FireService } from './fire.service';
@@ -10,15 +10,15 @@ import { FireService } from './fire.service';
 })
 export class AuthService {
   /** */
-  auth = firebase.getAuth(this.fireService.app);
+  auth = auth.getAuth(this.fireService.app);
   /** */
   ui = new firebaseui.auth.AuthUI(this.auth);
   /** User: Signed in, null: Not signed in, undefined: loading */
-  user$ = new BehaviorSubject<firebase.User | null | undefined>(undefined)
+  user$ = new BehaviorSubject<auth.User | null | undefined>(undefined)
   /** */
   get user() { return this.user$.value }
   /** */
-  token$ = new BehaviorSubject<firebase.IdTokenResult | null | undefined>(undefined)
+  token$ = new BehaviorSubject<auth.IdTokenResult | null | undefined>(undefined)
   /** */
   constructor(
     public fireService: FireService,
@@ -43,6 +43,6 @@ export class AuthService {
   }
   /** Signs out the current user. */
   logout() {
-    this.auth.signOut()
+   return this.auth.signOut()
   }
 }
