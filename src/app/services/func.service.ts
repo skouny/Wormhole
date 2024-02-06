@@ -4,25 +4,8 @@ import * as functions from "firebase/functions";
 import { AppService } from './app.service';
 import { FireService } from './fire.service';
 import { firebaseConfig } from 'shared/firebase-config';
+import { RightsGlobal } from 'shared/data-types';
 //#region Types
-/** Global Rights in custom claims */
-export interface RightsGlobal {
-  /** Dashboard: Console v3+ */
-  Admin?: boolean
-  /** Show Debug Options v3+ */
-  Debug?: boolean
-  /** Provider: Rights v3+ */
-  Data?: { [providerUID: string]: RightsProviderAuth }
-}
-/** Provider Basic Rights in custom claims */
-export interface RightsProviderAuth {
-  /** Admin-only features */
-  Admin?: boolean
-  /** Dashboard: Staff */
-  Staff?: boolean
-  /** Dashboard: Agent */
-  Agent?: boolean
-}
 /** */
 export type fireUserRemote = auth.User & { customClaims: RightsGlobal | undefined, disabled?: boolean, metadata?: { lastRefreshTime?: string } }
 //#endregion

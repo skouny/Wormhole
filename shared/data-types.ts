@@ -1,3 +1,21 @@
+/** Global Rights in custom claims */
+export interface RightsGlobal {
+  /** Dashboard: Console */
+  Admin?: boolean
+  /** Show Debug Options */
+  Debug?: boolean
+  /** Provider: Rights */
+  Data?: { [providerUID: string]: RightsProvider }
+}
+/** Provider Basic Rights in custom claims */
+export interface RightsProvider {
+  /** Admin-only features */
+  Admin?: boolean
+  /** Dashboard: Staff */
+  Staff?: boolean
+  /** Dashboard: Agent */
+  Agent?: boolean
+}
 /** https://api.opap.gr/draws/v3.0/{gameId}/{drawId} */
 export interface OpapDrawV3 {
   /** Tzoker=5104 */

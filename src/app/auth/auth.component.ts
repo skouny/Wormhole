@@ -19,13 +19,9 @@ import { AuthService } from '../services/auth.service';
 })
 export class AuthComponent {
   /** */
-  constructor(
-    public authService: AuthService,
-  ) { }
-  /** */
   divUI$ = new BehaviorSubject<ElementRef<HTMLDivElement> | undefined>(undefined)
   get divUI() { return this.divUI$.value }
-  @ViewChild("uiContainer") set divUI(value) { this.divUI$.next(value) }
+  @ViewChild("firebaseui") set divUI(value) { this.divUI$.next(value) }
   /** */
   loadUI$ = this.divUI$.pipe(map(elementRef => {
     if (!elementRef?.nativeElement) return
@@ -62,4 +58,8 @@ export class AuthComponent {
       privacyPolicyUrl: '<your-privacy-policy-url>'
     })
   }))
+  /** */
+  constructor(
+    public authService: AuthService,
+  ) { }
 }
