@@ -5,6 +5,7 @@ import * as firebaseui from 'firebaseui';
 import { BehaviorSubject, map } from 'rxjs';
 import { FireService } from './fire.service';
 import { RightsGlobal } from 'shared/data-types';
+import { MatSnackBar } from '@angular/material/snack-bar';
 /** Firebase Authentication */
 @Injectable({
   providedIn: 'root'
@@ -34,20 +35,29 @@ export class AuthService {
   get claims() { return this.claims$.value }
   /** */
   constructor(
-    public fireService: FireService,
     public router: Router,
+    public snackBar: MatSnackBar,
+    public fireService: FireService,
   ) {
-    this.auth.onAuthStateChanged(user => {
-      if (user) {
-        user.getIdTokenResult().then(result => {
-          this.token$.next(result)
-        })
-        console.log(`Hi ${user.email}!`)
-      } else {
-        this.token$.next(null)
-        console.log(`Please sign in`)
+    this.auth.onAuthStateChanged(async user => {
+      // Is sign out?
+      if (this.user$.value !== user && user === null && this.user$.value !== undefined) {
+        location.reload()
       }
-      this.user$.next(user)
+      // Is fully authenticated?
+      if (user?.email && user.emailVerified) {
+        this.user$.next(user)
+        this.token$.next(await user.getIdTokenResult())
+      } else {
+        this.user$.next(null)
+        this.token$.next(null)
+      }
+      // Send verification email?
+      if (user?.email && !user.emailVerified) {
+        await auth.sendEmailVerification(user)
+        this.snackBar.open('An e-mail for your account verification has been send. Please verify your account to login.', 'X')
+        await this.auth.signOut()
+      }
     })
   }
   /** */
