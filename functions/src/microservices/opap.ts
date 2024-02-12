@@ -35,7 +35,7 @@ export const updateDrawsV3 = async (gameId: number, drawId: number, limit = 100)
 export const updateDrawsQuickV3 = async (gameId: number) => {
   const query = await collection_OpapDrawV3.where("drawId", ">=", 0).orderBy("drawId", "desc").limit(1).get();
   if (query.docs.length === 1) {
-    const doc = query.docs[0].data() as OpapDrawV3;
+    const doc = query.docs[0].data();
     await updateDrawsV3(gameId, doc.drawId);
   }
 };

@@ -72,3 +72,9 @@ export interface OpapDrawV3 {
     addOn: unknown[]
   }
 }
+/** Collection Names */
+export enum CollectionName {
+  /** */
+  OpapDrawV3 = "OpapDrawV3"
+
+}
