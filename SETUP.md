@@ -46,4 +46,4 @@
 
 - `npx npm-upgrade`
 
-- `npm i`
+- `npm up`
