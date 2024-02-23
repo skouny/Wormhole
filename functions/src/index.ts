@@ -1,5 +1,5 @@
 /**
- * Import function triggers from their respective submodules:
+ * import function triggers from their respective submodules:
  *
  * import {onCall} from "firebase-functions/v2/https";
  *
